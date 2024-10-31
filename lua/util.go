@@ -26,6 +26,12 @@ func (L *State) PrintStack() {
 			fmt.Printf("%d | FUNC\n", i)
 			continue
 		}
+		if L.IsUserdata(i) {
+			fmt.Printf("%d | USR\n", i)
+		}
+		if L.IsLightUserdata(i) {
+			fmt.Printf("%d | LUSR\n", i)
+		}
 		if L.IsNil(i) {
 			fmt.Printf("%d | NIL\n", i)
 		}
