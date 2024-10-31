@@ -28,9 +28,11 @@ func (L *State) PrintStack() {
 		}
 		if L.IsUserdata(i) {
 			fmt.Printf("%d | USR\n", i)
+			continue
 		}
 		if L.IsLightUserdata(i) {
 			fmt.Printf("%d | LUSR\n", i)
+			continue
 		}
 		if L.IsNil(i) {
 			fmt.Printf("%d | NIL\n", i)
