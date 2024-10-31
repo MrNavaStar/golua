@@ -48,22 +48,22 @@ func toSlice(arg interface{}) (out []interface{}, ok bool) {
 }
 
 // Pushes a representation of the given interface to the lua stack
-func PushGoInterface(l *State, value interface{}) {
+func (L *State) PushGoInterface(value interface{}) {
 	switch converted := value.(type) {
 	case bool:
-		l.PushBoolean(converted)
+		L.PushBoolean(converted)
 		return
 	case int:
-		l.PushInteger(int64(converted))
+		L.PushInteger(int64(converted))
 		return
 	case float64:
-		l.PushNumber(converted)
+		L.PushNumber(converted)
 		return
 	case string:
-		l.PushString(converted)
+		L.PushString(converted)
 		return
 	case []byte:
-		l.PushBytes(converted)
+		L.PushBytes(converted)
 		return
 	}
 
@@ -74,16 +74,16 @@ func PushGoInterface(l *State, value interface{}) {
 
 	switch converted := value.(type) {
  	case []interface{}:
-		l.CreateTable(len(converted), 0)
+		L.CreateTable(len(converted), 0)
 		for i, item := range converted {
-			PushGoInterface(l, item)
-			l.RawSeti(-2, i+1)
+			L.PushGoInterface(item)
+			L.RawSeti(-2, i+1)
 		}
 	case map[string]interface{}:
-		l.CreateTable(0, len(converted))
+		L.CreateTable(0, len(converted))
 		for key, item := range converted {
-			PushGoInterface(l, item)
-			l.SetField(-2, key)
+			L.PushGoInterface(item)
+			L.SetField(-2, key)
 		}
 	}
 }
